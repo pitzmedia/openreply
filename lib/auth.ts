@@ -15,6 +15,24 @@ export const authConfig = {
     }),
   ],
   callbacks: {
+    // Single-tenant instance: only addresses in ALLOWED_EMAILS may sign in.
+    // Runs before the magic link is sent, so a stranger's address never even
+    // receives mail. Unset means open, matching upstream's behaviour.
+    async signIn({ user }) {
+      const allowed = (process.env.ALLOWED_EMAILS ?? "")
+        .split(",")
+        .map((entry) => entry.trim().toLowerCase())
+        .filter(Boolean);
+
+      if (allowed.length === 0) {
+        console.warn(
+          "[auth] ALLOWED_EMAILS is unset - sign-in is open to anyone"
+        );
+        return true;
+      }
+
+      return Boolean(user.email && allowed.includes(user.email.toLowerCase()));
+    },
     async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
