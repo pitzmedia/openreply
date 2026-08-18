@@ -36,6 +36,18 @@ export default function Home() {
             Access is limited to approved accounts.
           </p>
         </div>
+
+        <p className="mt-6 text-center text-xs text-muted">
+          a tool by{" "}
+          <a
+            href="https://pitzmedia.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-foreground transition hover:text-accent"
+          >
+            Pitzmedia
+          </a>
+        </p>
       </main>
 
       <footer className="mt-10 flex items-center gap-5 text-xs text-muted">
